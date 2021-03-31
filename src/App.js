@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Navbar from './components/layout/Navbar';
-import Users from './components/users/Users';
+import Home from './components/pages/Home';
 import User from './components/users/User';
-import Search from './components/users/SearchUser';
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
+import NotFound from './components/pages/NotFound';
 import GithubState from './context/github/GithubState';
 import AlertState from './context/alert/AlertState';
 
@@ -14,27 +14,23 @@ const App = () => {
   return (
     <GithubState>
       <AlertState>
-      <BrowserRouter>
-        <Navbar/>
-        <div className="container">
-          <Alert/>
-          <Switch>
-            <Route exact path='/' render={() => (
-              <Fragment>
-                <Search/>
-                <Users/>
-              </Fragment>
-            )} />
+        
+        <BrowserRouter>
+          
+          <Navbar/>
+          
+          <div className="container">
+            <Alert/>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/user/:login' component={User} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
 
-            <Route exact path='/about' component={About} />
-            <Route exact path='/user/:login' render={props => (
-              <User {...props}/>
-            )} />
+        </BrowserRouter>
 
-
-          </Switch>
-        </div>
-      </BrowserRouter>
       </AlertState>
     </GithubState>
   )
