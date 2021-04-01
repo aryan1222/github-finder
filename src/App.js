@@ -8,7 +8,7 @@ import Alert from './components/layout/Alert';
 import About from './components/pages/About';
 import NotFound from './components/pages/NotFound';
 import GithubState from './context/github/GithubState';
-import AlertState from './context/alert/AlertState';
+import AlertState from './context/alert/AlertState';  
 
 const App = () => {
   return (

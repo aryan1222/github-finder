@@ -4,7 +4,16 @@ import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
 import * as TYPES from '../types';
 
-// contains actions
+let githubClientId;
+let githubClientSecret;
+
+if(process.env.NODE_ENV !== 'production'){
+    githubClientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
+    githubClientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+}else{
+    githubClientId = process.env.GITHUB_CLIENT_ID;
+    githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+}
 
 const GithubState = props => {
     const initialState = {
@@ -19,9 +28,8 @@ const GithubState = props => {
     const searchUser = async text =>{
         setLoading();
         
-        const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_CLIENT_ID}
-                                      &client_secret=${process.env.REACT_APP_CLIENT_SECRET}`);
-
+        const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${githubClientId}
+                                      &client_secret=${githubClientSecret}`);
         dispatch({
             type: TYPES.SEARCH_USER,
             payload : res.data.items
@@ -32,8 +40,8 @@ const GithubState = props => {
     const getUser = async (username) => {
         setLoading();
         
-        const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_CLIENT_ID}
-                                    &client_secret=${process.env.REACT_APP_CLIENT_SECRET}`);
+        const res = await axios.get(`https://api.github.com/users/${username}?client_id=${githubClientId}
+                                    &client_secret=${githubClientSecret}`);
 
         dispatch({
             type : TYPES.GET_USER,
